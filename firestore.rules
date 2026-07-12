@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isExportOfficer() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_exportOfficers/$(request.auth.uid));
+    }
+
+    function isImportOfficer() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_importOfficers/$(request.auth.uid));
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /registrations/{registrationId} {
+      allow get, list: if isSignedIn();
+      allow create: if isExportOfficer() || isSignedIn(); // Simplified for prototype
+      allow update: if isExportOfficer() || isSignedIn();
+      allow delete: if isExportOfficer();
+    }
+
+    match /verificationLogs/{logId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /roles_exportOfficers/{uid} {
+      allow get: if isSignedIn();
+      allow list, create, update, delete: if false;
+    }
+
+    match /roles_importOfficers/{uid} {
+      allow get: if isSignedIn();
+      allow list, create, update, delete: if false;
+    }
+  }
+}

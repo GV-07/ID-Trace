@@ -1,0 +1,22 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Abstract global connection network",
+      "imageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBuZXR3b3JrfGVufDB8fHx8MTc3MjM1NzUxMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "global network"
+    },
+    {
+      "id": "export-card",
+      "description": "Manufacturing warehouse facility",
+      "imageUrl": "https://images.unsplash.com/photo-1759826350352-c5b0b77729bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx3YXJlaG91c2UlMjBleHBvcnR8ZW58MHx8fHwxNzcyMzc0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "warehouse export"
+    },
+    {
+      "id": "import-card",
+      "description": "Customs inspection checkpoint",
+      "imageUrl": "https://images.unsplash.com/photo-1716880288871-c15d8519f5b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y3VzdG9tcyUyMGltcG9ydHxlbnwwfHx8fDE3NzIzNzQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "customs import"
+    }
+  ]
+}
