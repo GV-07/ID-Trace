@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "Registration": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Registration",
+      "type": "object",
+      "description": "Salted identity record with dynamic manufacturer origin trace.",
+      "properties": {
+        "id": { "type": "string" },
+        "barcode": { "type": "string" },
+        "productName": { "type": "string" },
+        "brand": { "type": "string" },
+        "manufacturer": { "type": "string" },
+        "originAddress": { "type": "string", "description": "Physical manufacturing or publisher address." },
+        "registeredRegion": { "type": "string", "description": "The GS1 Member Organization / Country resolved from prefix." },
+        "category": { "type": "string" },
+        "weightSize": { "type": "string" },
+        "sku": { "type": "string" },
+        "batchNumber": { "type": "string" },
+        "hash": { "type": "string" },
+        "salt": { "type": "string" },
+        "exportTimestamp": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["active", "verified", "rejected"] }
+      },
+      "required": ["id", "barcode", "hash", "salt", "status", "registeredRegion", "originAddress"]
+    },
+    "VerificationLog": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "VerificationLog",
+      "type": "object",
+      "description": "Audit trail for verification attempts.",
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "scannedBarcode": { "type": "string" },
+        "verificationTimestamp": { "type": "string", "format": "date-time" },
+        "isMatch": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["approved", "rejected"] },
+        "creatorUid": { "type": "string" }
+      },
+      "required": ["id", "productId", "scannedBarcode", "verificationTimestamp", "isMatch", "status", "creatorUid"]
+    }
+  },
+  "auth": {
+    "providers": ["password", "anonymous"]
+  },
+  "firestore": {
+    "/registrations/{registrationId}": {
+      "schema": "#/backend/entities/Registration",
+      "description": "Salted identity registry with origin trace."
+    },
+    "/verificationLogs/{logId}": {
+      "schema": "#/backend/entities/VerificationLog",
+      "description": "Audit trail for verification attempts."
+    }
+  }
+}
