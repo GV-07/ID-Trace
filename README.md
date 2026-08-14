@@ -18,41 +18,48 @@
 
 ID-Trace operates as a lightweight context-propagation engine across service boundaries. It intercepts inbound requests, manages execution contexts (e.g., via AsyncLocalStorage/ThreadLocal), attaches correlated metadata (Trace ID, Span ID, User Identity), and injects those descriptors into outbound calls and logs.
 
-### System Overview
+```text
+                   ### System Overview
+                              |-----------------------------|
+                              |       Client / Ingress      |
+                              |-----------------------------|
+                                            | HTTP / gRPC
+                                            ▼
+                   |-------------------------------------------------------|
+                   | API GATEWAY                                           |
+                   | - Generates / Extracted: X-Trace-ID                   |
+                   | - Resolves User Identity: X-User-ID                   |
+                   |-------------------------------------------------------|
+                                            |
+                                  Inject Header | Context
+                                            ▼
+                   |----------------------------------------------------------|
+                   | SERVICE A                                                |
+                   |                                                          |
+                   |  |-----------------------|    |-----------------------|  |
+                   |  | ID-Trace Middleware   |--->| ID-Trace Local Context|  |
+                   |  | (Interceptors/Filters)|    | (Trace ID, Span ID,   |  |
+                   |  |-----------------------|    |  User ID)             |  |
+                   |                               |-----------------------|  |
+                   |                                          |               |
+                   |                                          ▼               |
+                   |                               |-----------------------|  |
+                   |                               | Contextual Structured |  |
+                   |                               | Logger                |  |
+                   |                               |-----------------------|  |
+                   |----------------------------------------------------------|
+                                            | Outbound HTTP / gRPC / Kafka
+                                            ▼
+                   |---------------------------------------------------------|
+                   | SERVICE B                                               |
+                   |                                                         |
+                   |  |-----------------------|    |-----------------------| |
+                   |  | ID-Trace Middleware   |--->| ID-Trace Local Context| |
+                   |  |-----------------------|    |-----------------------| |
+                   |---------------------------------------------------------|
 
-                      ┌───────────────────────────┐
-                      │     Client / Ingress      │
-                      └─────────────┬─────────────┘
-                                    │ HTTP / gRPC
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ API GATEWAY                                                                 │
-│  • Generates / Extracted: X-Trace-ID                                        │
-│  • Resolves User Identity: X-User-ID                                        │
-└──────────────────────────────────────┬──────────────────────────────────────┘
-│
-Inject Header │ Context
-▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ SERVICE A                                                                   │
-│  ┌──────────────────────────────┐     ┌──────────────────────────────────┐  │
-│  │ ID-Trace Middleware          │────►│ ID-Trace Local Context           │  │
-│  │ (Interceptors / Filters)     │     │ (Trace ID, Span ID, User ID)     │  │
-│  └──────────────────────────────┘     └────────────────┬─────────────────┘  │
-│                                                        │                    │
-│                                                        ▼                    │
-│                                       ┌──────────────────────────────────┐  │
-│                                       │ Contextual Structured Logger     │  │
-│                                       └──────────────────────────────────┘  │
-└──────────────────────────────────────┬──────────────────────────────────────┘
-│ Outbound HTTP / gRPC / Kafka
-▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ SERVICE B                                                                   │
-│  ┌──────────────────────────────┐     ┌──────────────────────────────────┐  │
-│  │ ID-Trace Middleware          │────►│ ID-Trace Local Context           │  │
-│  └──────────────────────────────┘     └──────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────┘
+```
+
 
 
 ### Core Architecture Components
@@ -94,3 +101,18 @@ ID-Trace uses standard HTTP header/metadata specifications to propagate state ac
 - 📊 **Log Format Consistency:** Standardizes log output structures across multi-language microservices.
 
 ---
+
+give the meaning this lines 
+<div align="center">
+  <p>    <code>&lt;/&gt;</code> Developed with 💡 by <b>Gokul V</b>
+  </p>
+  <p>
+    <!-- Replace the '#' with your actual profile links! -->
+    <a href="#">
+      <img src="https://img.shields.io/badge/GitHub-Profile-181717?style=flat-square&logo=github" alt="GitHub Profile"/>
+    </a>
+    <a href="#">
+      <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin" alt="LinkedIn Profile"/>
+    </a>
+  </p>
+</div>
